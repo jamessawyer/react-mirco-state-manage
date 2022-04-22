@@ -1,45 +1,79 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { createContext, useState, useContext, createElement } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+// 工厂函数 返回一个 Provider & 自定义Hook 避免重复的业务逻辑
+const createStateContext = <Value, State>(useValue: (init?: Value) => State) => {
+  const StateContext = createContext<State | null>(null)
+  const StateProvider = ({initialValue, children}: {initialValue?: Value, children?: React.ReactNode}) => (
+    <StateContext.Provider value={useValue(initialValue)}>
+      {children}
+    </StateContext.Provider>
+  )
 
+  const useContextState = () => {
+    const value = useContext(StateContext)
+    if (value === null) {
+      throw new Error('useContextState must be used within a StateProvider')
+    }
+    return value
+  }
+
+  return [StateProvider, useContextState] as const
+}
+
+const useNumberState = (init?: number) => useState(init || 0)
+
+const [Counter1Provider, useCount1] = createStateContext(useNumberState)
+const [Counter2Provider, useCount2] = createStateContext(useNumberState)
+
+const Counter1 = () => {
+  const [count, setCount] = useCount1()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      count1: {count}
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
     </div>
   )
+}
+const Counter2 = () => {
+  const [count, setCount] = useCount2()
+  return (
+    <div>
+      count2: {count}
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </div>
+  )
+}
+
+const Parent = () => (
+  <div>
+    <Counter1 />
+    <Counter1 />
+    <Counter2 />
+    <Counter2 />
+  </div>
+)
+
+function App() {
+
+  // 可以给一个 initialValue
+  return (
+    <Counter1Provider initialValue={1}>
+      <Counter2Provider>
+        <Parent />
+      </Counter2Provider>
+    </Counter1Provider>
+  )
+}
+
+function AnotherSolution() {
+  const providers = [
+    [Counter1Provider, {initialValue: 10}],
+    [Counter2Provider, {initialValue: 20}]
+  ] as const
+
+  // 使用 reduceRight 构建一个 providers tree
+  // 这种方法也可以用于其它组件的嵌套
+  return providers.reduceRight((children, [Comp, props]) => createElement(Comp, props, children), <Parent />)
 }
 
 export default App
