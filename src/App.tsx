@@ -1,44 +1,89 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+type CountContextType = [
+  number,
+  Dispatch<SetStateAction<number>>
+]
+
+const Count1Context = createContext<CountContextType | null>(null)
+
+const Count1Provider = ({ children }: { children: React.ReactNode }) => (
+  // 注意这里使用了 value={useState(0)} 
+  // 等价于 const [count, setCount] = useState(0) 
+  // <Count1Context.Provider value={[count, setCount]}></Count1Context.Provider>
+  <Count1Context.Provider value={useState(0)}>
+    {children}
+  </Count1Context.Provider>
+)
+
+// 自定义Hooks
+const useCount1 = () => {
+  const value = useContext(Count1Context)
+
+  if (value === null) throw new Error('Provider missing')
+  return value
+}
+
+const Count2Context = createContext<CountContextType | null>(null)
+
+const Count2Provider = ({ children }: { children: React.ReactNode }) => (
+  // 注意这里使用了 value={useState(0)} 
+  // 等价于 const [count, setCount] = useState(0) 
+  // <Count1Context.Provider value={[count, setCount]}></Count1Context.Provider>
+  <Count2Context.Provider value={useState(0)}>
+    {children}
+  </Count2Context.Provider>
+)
+
+// 自定义Hooks
+const useCount2 = () => {
+  const value = useContext(Count2Context)
+
+  if (value === null) throw new Error('Provider missing')
+  return value
+}
+
+const Counter1 = () => {
+  // 使用封装的Hooks 隐藏context细节
+  const [count1, setCount1] = useCount1()
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      Count1: {count1}
+      <button onClick={() => setCount1(c => c + 1)}>+1</button>
     </div>
+  )
+}
+
+const Counter2 = () => {
+  // 使用封装的Hooks 隐藏context细节
+  const [count2, setCount2] = useCount2()
+
+  return (
+    <div>
+      Count1: {count2}
+      <button onClick={() => setCount2(c => c + 1)}>+1</button>
+    </div>
+  )
+}
+
+const Parent = () => (
+  <>
+    <Counter1 />
+    <Counter1 />
+    <Counter2 />
+    <Counter2 />
+  </>
+)
+
+function App() {
+
+  return (
+    <Count1Provider>
+      <Count2Provider>
+        <Parent />
+      </Count2Provider>
+    </Count1Provider>
   )
 }
 
