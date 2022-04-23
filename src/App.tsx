@@ -10,53 +10,93 @@ const createContainer = (initialState: unknown) => {
   return { getState, setState }
 }
 
-let count = 0
+type Store<T> = {
+  getState: () => T,
+  setState: (action: T | ((prev: T) => T)) => void,
+  subscribe: (callback: () => void) => () => void // 回调函数 返回一个函数取消订阅
+}
 
-// 为了解决 Counter1 & Counter2 中 state 不能同步更新的问题
-// 使用一个set 将所有的 setState 收集起来，然后点击时使用 forEach 调用所有 setStateFunctions 中的 setState
-// 但是这样会出现大量重复性的代码，可以使用订阅的方式去解决这个问题
-let setStateFunctions = new Set<(count: number) => void>()
+const createStore = <T extends unknown>(initialState: T): Store<T> => {
+  let state = initialState
+  const callbacks = new Set<() => void>()
 
-const Counter1 = () => {
-  const [state, setState] = useState(count)
+  const getState = () => state
+
+  const setState = (nextState: T | ((prev: T) => T)) => {
+    state = typeof nextState === 'function' 
+              ? (nextState as (prev: T) => T)(state)
+              : nextState
+    callbacks.forEach(callback => callback())
+  }
+
+  const subscribe = (callback: () => void) => {
+    callbacks.add(callback)
+    return () => callbacks.delete(callback)
+  }
+
+  return { getState, setState, subscribe }
+}
+
+const store = createStore({ count: 0 })
+// console.log('get state: ', store.getState())
+// store.setState({ count: 1 })
+// console.log('get state 2: ', store.getState())
+// store.subscribe(() => console.log('subscript'))
+
+const useStore = <T extends unknown>(store: Store<T>) => {
+  const [state, setState] = useState(store.getState())
 
   useEffect(() => {
-    setStateFunctions.add(setState)
-    return () => {
-      setStateFunctions.delete(setState)
-    }
-  }, [])
+    const unsubscribe = store.subscribe(() => {
+      setState(store.getState())
+    })
+
+    // 调用一次 setState
+    setState(store.getState())
+    return unsubscribe
+  }, [store])
+
+  // 返回 state 和 更新 state 的方法
+  // https://stackoverflow.com/a/66993654
+  // as const 表示 const assertion (const断言)
+  // const 断言告诉编译器推断出它可以为表达式推断出的最窄 或最具体的类型。
+  // 如果将其关闭，编译器将使用其默认类型推断行为，这可能会导致更广泛或更通用的类型。
+  return [state, store.setState] as const
+}
+
+
+
+const Counter1 = () => {
+  const [state, setState] = useStore(store)
 
   const inc = () => {
-    count += 1
-    setStateFunctions.forEach(fn => fn(count))
+    setState(prev => ({
+      ...prev,
+      count: prev.count + 1
+    }))
   }
 
   return <div>
-    state : {state}
+    state : {state.count}
     <button onClick={inc}>+1</button>
   </div>
 }
-
 const Counter2 = () => {
-  const [state, setState] = useState(count)
-  useEffect(() => {
-    setStateFunctions.add(setState)
-    return () => {
-      setStateFunctions.delete(setState)
-    }
-  }, [])
+  const [state, setState] = useStore(store)
 
   const inc = () => {
-    count += 2
-    setStateFunctions.forEach(fn => fn(count))
+    setState(prev => ({
+      ...prev,
+      count: prev.count + 2
+    }))
   }
 
   return <div>
-    state2 : {state}
+    state2 : {state.count}
     <button onClick={inc}>+2</button>
   </div>
 }
+
 
 function App() {
 
