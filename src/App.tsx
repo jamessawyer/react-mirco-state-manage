@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSubscription } from 'use-subscription'
 
 const createContainer = (initialState: unknown) => {
   let state = initialState
@@ -64,30 +65,26 @@ const useStore = <T extends unknown>(store: Store<T>) => {
   return [state, store.setState] as const
 }
 
-// 因为上面的 useStore 返回整个 state 对象
-// 这样会导致 state中的任何一部分状态发生了更新，其余订阅了store的组件 都会重新渲染 导致性能问题
-// 所以我们需要把 state 中的某个部分抽离出来
-const useStoreSelector = <T, S>(store: Store<T>, selector: (state: T) => S) => {
-  const [state, setState] = useState(() => selector(store.getState()))
 
-  useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
-      setState(selector(store.getState()))
-    })
-
-    setState(selector(store.getState()))
-
-    return unsubscribe
-  }, [store, selector])
-
-  return state
-}
+// 当 store 和 selector 发生变化时 因为 useEffect 触发的时机比较晚，知道重新订阅完成之前，返回的state都是滞后的
+// 因此使用 useSubscription 去解决这个问题
+// 使用 react18 中引入的 useSyncExternalStore 可以避免使用第三方的 use-subscription 库
+const useStoreSelector = <T, S>(store: Store<T>, selector: (state: T) => S) => 
+  useSubscription(
+    useMemo(() => ({
+      getCurrentValue: () => selector(store.getState()),
+      subscribe: store.subscribe
+    }), [store, selector])
+  )
 
 
 
 const Counter1 = () => {
-  // 使用 useCallback 获取一个稳定的 selector 函数
-  const state = useStoreSelector(store, useCallback(state => state.count1, []))
+  // 这里直接使用 useSubscription也是可以的
+  const state = useSubscription(useMemo(() => ({
+    getCurrentValue: () => store.getState().count1,
+    subscribe: store.subscribe
+  }), []))
 
   const inc = () => {
     // 注意这里需要使用 immutable 的方式更新对象
