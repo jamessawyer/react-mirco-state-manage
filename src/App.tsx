@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import TodoApp from './TodoList'
 
 import useStore, { StoreType } from './useStore'
 
@@ -45,6 +46,7 @@ function App() {
       <Counter1 />
       <Counter2 />
       <Total />
+      <TodoApp />
     </div>
   )
 }
