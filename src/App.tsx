@@ -1,43 +1,50 @@
 import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+
+import useStore, { StoreType } from './useStore'
+
+const count1Selector = (state: StoreType) => state.count1
+
+const Counter1 = () => {
+  const count1 = useStore(count1Selector)
+
+  const increment = () => {
+    useStore.setState(prev => ({ count1: prev.count1 + 1 }))
+  }
+  return <div>
+    counter1: {count1}
+    <button onClick={increment}>+1</button>
+    </div>
+}
+
+const count2Selector = (state: StoreType) => state.count2
+// selector的方式 选取更新函数
+const selectInc2 = (state: StoreType) => state.inc2
+
+const Counter2 = () => {
+  const count2 = useStore(count2Selector)
+  const inc2 = useStore(selectInc2)
+
+  return <div>
+    counter2: {count2}
+    <button onClick={inc2}>+1</button>
+  </div>
+}
+
+// 使用 selector 创建 派生状态
+const totalSelector = (state: StoreType) => state.count1 + state.count2
+const Total = () => {
+  const total = useStore(totalSelector)
+  return <div>派生状态total: {total}</div>
+}
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Counter1 />
+      <Counter2 />
+      <Total />
     </div>
   )
 }
