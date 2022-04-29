@@ -1,43 +1,36 @@
 import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { atom, useAtom } from 'jotai'
+
+const countAtom = atom(0)
+
+const Counter1 = () => {
+  const [count, setCount] = useAtom(countAtom)
+
+  return (
+    <>
+      <h1>count1: {count}</h1>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </>
+  )
+}
+
+const Counter2 = () => {
+  const [count, setCount] = useAtom(countAtom)
+
+  return (
+    <>
+      <h1>count2: {count}</h1>
+      <button onClick={() => setCount(c => c + 1)}>+1</button>
+    </>
+  )
+}
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Counter1 />
+      <Counter2 />
     </div>
   )
 }

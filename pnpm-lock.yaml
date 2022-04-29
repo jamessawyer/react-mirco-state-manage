@@ -4,12 +4,14 @@ specifiers:
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^1.3.0
+  jotai: ^1.6.5
   react: ^18.0.0
   react-dom: ^18.0.0
   typescript: ^4.6.3
   vite: ^2.9.5
 
 dependencies:
+  jotai: registry.npmmirror.com/jotai/1.6.5_react@18.0.0
   react: registry.npmmirror.com/react/18.0.0
   react-dom: registry.npmmirror.com/react-dom/18.0.0_react@18.0.0
 
@@ -835,6 +837,46 @@ packages:
     dependencies:
       has: registry.npmmirror.com/has/1.0.3
     dev: true
+
+  registry.npmmirror.com/jotai/1.6.5_react@18.0.0:
+    resolution: {integrity: sha512-B+DGV5ALIkIeyA1Bi9yBpdGmcWkmDS/p8C1XFYx9jFBs+lkeOdu0WAozAPCG4Qq1EcQ68vF+07HmPYFN5kf9OQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jotai/-/jotai-1.6.5.tgz}
+    id: registry.npmmirror.com/jotai/1.6.5
+    name: jotai
+    version: 1.6.5
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      react-query: '*'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      react-query:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react: registry.npmmirror.com/react/18.0.0
+    dev: false
 
   registry.npmmirror.com/js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/js-tokens/-/js-tokens-4.0.0.tgz}
