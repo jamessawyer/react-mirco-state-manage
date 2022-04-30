@@ -1,6 +1,10 @@
 import { useState } from 'react'
-import { atom, useAtom } from 'jotai'
+import { Atom, atom, Provider, useAtom } from 'jotai'
 
+/**
+ * -------- example 1 --------
+ * Jotai 的基本使用 atom() 函数 & useAtom() hook
+ */
 const countAtom = atom(0)
 
 const Counter1 = () => {
@@ -25,6 +29,10 @@ const Counter2 = () => {
   )
 }
 
+/**
+ * -------- example 2 --------
+ * Jotai read函数 派生 atom & 自动追踪依赖
+ */
 const firstNameAtom = atom('React')
 const lastNameAtom = atom('Native')
 const ageAtom = atom(19)
@@ -51,14 +59,65 @@ const PersonComponent = () => {
   )
 }
 
+/**
+ * -------- example 3 --------
+ * atom则为属性的方式 + 派生
+ */
+const countAtom1 = atom<number>(0)
+const countAtom2 = atom<number>(0)
+// 这里直接返回一个值
+const totalAtom = atom(get => 
+  get(countAtom1) + get(countAtom2)
+)
+// 注意这里的 ts 类型 -  typeof countAtom1
+const Counter = ({ someCountAtom }: {someCountAtom: typeof countAtom1}) => {
+  const [count, setCount] = useAtom(someCountAtom)
+  const inc = () => setCount(c => c + 1)
+  return (
+    <>count: {count}  <button onClick={inc}>+1</button></>
+  )
+}
+const Total = () => {
+  const [total] = useAtom(totalAtom)
+  console.log('total', total)
+
+  return (
+    <>
+      total: {total}
+    </>
+  )
+}
+
+
 function App() {
 
   return (
     <div className="App">
+      <h1>全局状态</h1>
       <Counter1 />
       <Counter2 />
       <hr />
+      <h1>派生atom</h1>
       <PersonComponent />
+      <hr />
+      <div>
+        <h1>派生组件</h1>
+        (<Counter someCountAtom={countAtom1} />) + 
+        (<Counter someCountAtom={countAtom2} />) =
+        (<Total />)
+      </div>
+      <hr />
+      <Provider>
+        <h1>Provider 对store进行隔离 区域1</h1>
+        <Counter someCountAtom={countAtom1} />
+        <Counter someCountAtom={countAtom2} />
+      </Provider>
+      <Provider>
+        <h1>Provider 对store进行隔离 区域2</h1>
+        <Counter someCountAtom={countAtom1} />
+        <Counter someCountAtom={countAtom1} />
+      </Provider>
+
     </div>
   )
 }
