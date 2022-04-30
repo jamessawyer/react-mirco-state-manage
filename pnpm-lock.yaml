@@ -5,6 +5,7 @@ specifiers:
   '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^1.3.0
   jotai: ^1.6.5
+  nanoid: ^3.3.3
   react: ^18.0.0
   react-dom: ^18.0.0
   typescript: ^4.6.3
@@ -12,6 +13,7 @@ specifiers:
 
 dependencies:
   jotai: registry.npmmirror.com/jotai/1.6.5_react@18.0.0
+  nanoid: registry.npmmirror.com/nanoid/3.3.3
   react: registry.npmmirror.com/react/18.0.0
   react-dom: registry.npmmirror.com/react-dom/18.0.0_react@18.0.0
 
@@ -920,7 +922,6 @@ packages:
     version: 3.3.3
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   registry.npmmirror.com/node-releases/2.0.3:
     resolution: {integrity: sha512-maHFz6OLqYxz+VQyCAtA3PTX4UP/53pa05fyDNc9CwjvJ0yEh6+xBwKsgCxMNhS8taUKBFYxfuiaD9U/55iFaw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/node-releases/-/node-releases-2.0.3.tgz}

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Atom, atom, Provider, useAtom } from 'jotai'
+import { atom, Provider, useAtom } from 'jotai'
+import { NewTodo, TodoList } from './TodoList'
 
 /**
  * -------- example 1 --------
@@ -117,7 +117,10 @@ function App() {
         <Counter someCountAtom={countAtom1} />
         <Counter someCountAtom={countAtom1} />
       </Provider>
-
+      <hr />
+      <h1>TODO List App</h1>
+      <TodoList />
+      <NewTodo />
     </div>
   )
 }
