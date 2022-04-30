@@ -89,7 +89,7 @@ export const NewTodo = () => {
         value={text}
         onChange={e => setText(e.target.value)} onKeyDown={onKeyDown}
       />
-      <button onClick={onClick}>添加</button>
+      <button onClick={onClick} disabled={!text}>添加</button>
     </div>
   )
 }

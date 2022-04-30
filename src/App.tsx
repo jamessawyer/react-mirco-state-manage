@@ -1,5 +1,6 @@
 import { atom, Provider, useAtom } from 'jotai'
 import { NewTodo, TodoList } from './TodoList'
+import { NewTodo as AtomNewTodo, TodoList as AtomTodoList } from './AtomsInAtomTodoList'
 
 /**
  * -------- example 1 --------
@@ -121,6 +122,10 @@ function App() {
       <h1>TODO List App</h1>
       <TodoList />
       <NewTodo />
+      <hr />
+      <h1>使用Atoms-In-Atom模式完成的TodoList App😎</h1>
+      <AtomTodoList />
+      <AtomNewTodo />
     </div>
   )
 }
