@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { proxy, useSnapshot } from 'valtio'
+import TodoApp from './TodoApp'
 
 const state = proxy({
   count1: 0,
@@ -32,9 +33,13 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Count app</h1>
       <Count1 />
       <br />
       <Count2 />
+      <hr />
+      <h1>Todo App</h1>
+      <TodoApp />
     </div>
   )
 }
