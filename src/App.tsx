@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { proxy, useSnapshot } from 'valtio'
+import NewTodoApp from './NewTodoApp'
 import TodoApp from './TodoApp'
 
 const state = proxy({
@@ -40,6 +41,9 @@ function App() {
       <hr />
       <h1>Todo App</h1>
       <TodoApp />
+      <hr />
+      <h1>New Todo App 每个TodoItem都是用useSnapshot</h1>
+      <NewTodoApp />
     </div>
   )
 }
