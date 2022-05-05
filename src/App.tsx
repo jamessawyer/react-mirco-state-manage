@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import CounterWithProvider from './CounterWithProvider'
 import CounterWithReactTracked from './CounterWithReactTracked'
 import CounterTrackedWithReducer from './CounterTrackedWithReducer'
+import CounterTrackedWithRedux from './CounterTrackedWithRedux'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
@@ -18,6 +16,9 @@ function App() {
       <hr />
       <h1>3️⃣ react-tracked + useReducer</h1>
       <CounterTrackedWithReducer />
+      <hr />
+      <h1>4️⃣ react-tracked + redux + react-redux</h1>
+      <CounterTrackedWithRedux />
     </div>
   )
 }
