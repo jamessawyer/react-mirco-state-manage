@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import CounterRecoil from './CounterRecoil'
 import CounterRedux from './CounterRedux'
 import CounterZustand from './CounterZustand'
 
@@ -14,6 +15,8 @@ function App() {
       <h1>2️⃣ zustand</h1>
       <CounterZustand />
       <hr />
+      <h1>3️⃣ Recoil</h1>
+      <CounterRecoil />
     </div>
   )
 }
