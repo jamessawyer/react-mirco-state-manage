@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import './App.css'
+import CounterJotai from './CounterJotai'
 import CounterRecoil from './CounterRecoil'
 import CounterRedux from './CounterRedux'
 import CounterZustand from './CounterZustand'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
@@ -17,6 +16,9 @@ function App() {
       <hr />
       <h1>3️⃣ Recoil</h1>
       <CounterRecoil />
+      <hr />
+      <h1>4️⃣ Jotai</h1>
+      <CounterJotai />
     </div>
   )
 }
