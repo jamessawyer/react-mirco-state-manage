@@ -7,6 +7,7 @@ specifiers:
   '@vitejs/plugin-react': ^1.3.0
   jotai: ^1.6.5
   mobx: ^6.5.0
+  mobx-react: ^7.4.0
   react: ^18.0.0
   react-dom: ^18.0.0
   react-redux: ^8.0.1
@@ -20,6 +21,7 @@ dependencies:
   '@reduxjs/toolkit': registry.npmmirror.com/@reduxjs/toolkit/1.8.1_react-redux@8.0.1+react@18.0.0
   jotai: registry.npmmirror.com/jotai/1.6.5_react@18.0.0+valtio@1.6.0
   mobx: registry.npmmirror.com/mobx/6.5.0
+  mobx-react: registry.npmmirror.com/mobx-react/7.4.0_ec6945183068133ff61c88d19e8f3079
   react: registry.npmmirror.com/react/18.0.0
   react-dom: registry.npmmirror.com/react-dom/18.0.0_react@18.0.0
   react-redux: registry.npmmirror.com/react-redux/8.0.1_7d29b7de67429dc440865e67c402a452
@@ -981,6 +983,49 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: registry.npmmirror.com/js-tokens/4.0.0
+    dev: false
+
+  registry.npmmirror.com/mobx-react-lite/3.4.0_ec6945183068133ff61c88d19e8f3079:
+    resolution: {integrity: sha512-bRuZp3C0itgLKHu/VNxi66DN/XVkQG7xtoBVWxpvC5FhAqbOCP21+nPhULjnzEqd7xBMybp6KwytdUpZKEgpIQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mobx-react-lite/-/mobx-react-lite-3.4.0.tgz}
+    id: registry.npmmirror.com/mobx-react-lite/3.4.0
+    name: mobx-react-lite
+    version: 3.4.0
+    peerDependencies:
+      mobx: ^6.1.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: registry.npmmirror.com/mobx/6.5.0
+      react: registry.npmmirror.com/react/18.0.0
+      react-dom: registry.npmmirror.com/react-dom/18.0.0_react@18.0.0
+    dev: false
+
+  registry.npmmirror.com/mobx-react/7.4.0_ec6945183068133ff61c88d19e8f3079:
+    resolution: {integrity: sha512-gbUwaKZK09SiAleTMxNMKs1MYKTpoIEWJLTLRIR/xnALuuHET8wkL8j1nbc1/6cDkOWVyKz/ReftILx0Pdh2PQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mobx-react/-/mobx-react-7.4.0.tgz}
+    id: registry.npmmirror.com/mobx-react/7.4.0
+    name: mobx-react
+    version: 7.4.0
+    peerDependencies:
+      mobx: ^6.1.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: registry.npmmirror.com/mobx/6.5.0
+      mobx-react-lite: registry.npmmirror.com/mobx-react-lite/3.4.0_ec6945183068133ff61c88d19e8f3079
+      react: registry.npmmirror.com/react/18.0.0
+      react-dom: registry.npmmirror.com/react-dom/18.0.0_react@18.0.0
     dev: false
 
   registry.npmmirror.com/mobx/6.5.0:
