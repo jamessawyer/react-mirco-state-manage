@@ -19,6 +19,10 @@
 
 
 状态管理主要考虑的2个问题：
-1. 状态存放位置：module state vs component state
-2. 状态更新方式：immutable update vs mutable update
+1. 状态存放位置：`module state` vs `component state`
+2. 状态更新方式：`immutable update` vs `mutable update`
+
+React性能优化，避免额外的重渲染（re-renders）：
+1. 手动优化，使用 `selector` 的方式，比如 redux, zustand
+2. 使用自动方式，**订阅** 或者是 `proxy` 的形式，比如valtio，jotai，react-tracked
 
